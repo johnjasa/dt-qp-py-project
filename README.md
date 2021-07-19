@@ -1,6 +1,6 @@
 # dt-qp-py-project
 ## Python version and IDE
--I am currently using python 3.9, and spyder as the IDE [https://www.spyder-ide.org/](https://www.spyder-ide.org/).
+- I am currently using python 3.9, and spyder as the IDE [https://www.spyder-ide.org/](https://www.spyder-ide.org/).
 
 ## Python Dependencies
 - Numpy, Scipy, Matplotlib, and OSQP are the current packages that are being used
