@@ -1,19 +1,24 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jul  2 17:05:33 2021
+DTQPy_create_bnds
+Create matrix for the quadratic objective term
 
-@author: rajan
+Contributor: Athul Krishna Sundarrajan (AthulKrishnaSundarrajan on Github)
+Primary Contributor: Daniel R. Herber (danielrherber on Github)
 """
 import numpy as np
 from DTQPy_bnds import DTQPy_bnds
 
-def DTQPy_create_bnds(LB,UB,ini):
-    lb = np.ones((ini.nx,len(LB)))*-np.inf
-    ub = np.ones((ini.nx,len(UB)))*np.inf
+def DTQPy_create_bnds(LB,UB,internal):
+    nx = internal.nx
+    
+    
+    lb = np.ones((nx,len(LB)))*-np.inf
+    ub = np.ones((nx,len(UB)))*np.inf
     
     for i in range(len(LB)):
-      
-        I,V = DTQPy_bnds(LB[i],ini)
+        LB[i].Check_shape()
+        I,V = DTQPy_bnds(LB[i],internal)
         #breakpoint()
         lb[I,i] = V
         
@@ -21,7 +26,8 @@ def DTQPy_create_bnds(LB,UB,ini):
     #breakpoint()
     
     for i in range(len(UB)):
-        I,V = DTQPy_bnds(UB[i],ini)
+        UB[i].Check_shape()
+        I,V = DTQPy_bnds(UB[i],internal)
         #breakpoint()
         ub[I,i] = V
     

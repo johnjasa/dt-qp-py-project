@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jul  1 01:49:36 2021
+DTQPy_DEFECTS_TR
+Create defect constraint using trapezoidal rule
 
-@author: rajan
+Contributor: Athul Krishna Sundarrajan (AthulKrishnaSundarrajan on Github)
+Primary Contributor: Daniel R. Herber (danielrherber on Github)
 """
 import numpy as np
 from numpy.matlib import repmat
 from scipy.sparse import csc_matrix
 from matplotlib.pyplot import spy
+from DTQPy_tmultiprod import DTQPy_tmultiprod
 
 def Index_Columns(a,b,c):
             J = np.arange(a*c+1,a*(b+c)+1)
@@ -16,46 +19,26 @@ def Index_Columns(a,b,c):
             J = np.reshape(J,((a-1)*b,1),order = 'F')
             return J-1 # python indexing
 
-def DTQPy_DEFECTS_TR(A,B,G,d,ini):
+def DTQPy_DEFECTS_TR(A,B,G,d,internal,opts):
         
         # Extract variables
-        nu = ini.nu; ny = ini.ny; npl = ini.npl; nd = ini.nd; nx = ini.nx;
-        auxdata = ini.auxdata; nt = ini.nt; t = ini.t; h = ini.h
+        nu = internal.nu; ny = internal.ny; npl = internal.npl; nd = internal.nd; nx = internal.nx;
+        auxdata = internal.auxdata; nt = internal.nt; t = internal.t; h = internal.h
         
         
-        # will be replaced by tmultiprod
-        Aflag = A.any()
-        Bflag = B.any()
-        Gflag = G.any()
-        dflag = d.any()
+        # evaluate time varying matrices
         
-        if A.any():
-           At = np.zeros((nt,ny,ny))
-           
-        if B.any():   
-           Bt = np.zeros((nt,ny,nu))
+        At = DTQPy_tmultiprod(A,auxdata,t)
+        Bt = DTQPy_tmultiprod(B,auxdata,t)
+        Gt = DTQPy_tmultiprod(G,auxdata,t)
+        dt = DTQPy_tmultiprod(d,auxdata,t)
         
-        if G.any():    
-           Gt = np.zeros((nt,ny,npl))
-           
-        if d.any():   
-           dt = np.zeros((nt,ny,1))
+        Aflag = At.any()
+        Bflag = Bt.any()
+        Gflag = Gt.any()
+        dflag = dt.any()
         
         #breakpoint()
-        
-        for i in range(nt):
-            if A.any():
-               At[i,:,:] = A
-               
-            if B.any():   
-               Bt[i,:,:] = B
-               
-            if G.any():   
-               Gt[i,:,:] = G
-               
-            if d.any():   
-               dt[i,:,:] = d
-        
         # initalize identity matrix
         K = np.kron(np.eye(ny),np.ones((nt-1,1)))
         
@@ -80,7 +63,7 @@ def DTQPy_DEFECTS_TR(A,B,G,d,ini):
         
         # Column indices for plant parameters
         if npl>0:
-            Jp = np.kron(nt*(nu+ny)*(np.arange(1,npl+1)),np.ones(nt-1,1))
+            Jp = np.kron(nt*(nu+ny)*(np.arange(1,npl+1)),np.ones((nt-1,1)))
             Tp = Index_Columns(nt,npl,0)
             Hp = repmat(0.5*h,npl,1)
         
@@ -184,7 +167,7 @@ def DTQPy_DEFECTS_TR(A,B,G,d,ini):
               
                   
          # Generate output sparse matrix           
-        Aeq = csc_matrix((Vsav,(Isav,Jsav)),shape = (ny*(nt-1),(nu+ny)*nt)) 
+        Aeq = csc_matrix((Vsav,(Isav,Jsav)),shape = (ny*(nt-1),nx)) 
         
 
         #  Disturbances
