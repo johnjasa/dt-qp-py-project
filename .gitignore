@@ -7,6 +7,7 @@
 # ignore certain folders
 .private*/
 plots*/
+__pycache__*/
 
 # ignore specific files
 notes.txt
