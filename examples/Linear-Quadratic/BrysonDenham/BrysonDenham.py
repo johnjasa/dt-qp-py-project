@@ -30,96 +30,20 @@ opts.solver.tolerence = 1e-5
 A = np.array([[0,1],[0,0]])
 B = np.array([[0],[1]])
 
-
-# # # DT details
-# ini = auxdata()
-# ini.ny = np.size(B,0); ny = ini.ny
-# ini.nu = np.size(B,1); nu = ini.nu
-# ini.nt = 1000; nt = ini.nt
-# ini.npl = 0;
-# ini.nd = 0;
-# ini.auxdata = []
-# ini.nx = ini.nt*(nu+ny)
-# t0 = 0; tf = 1;
-
-# t = np.linspace(t0,tf,ini.nt)
-# ini.t = t.reshape(ini.nt,1);t = ini.t
-# ini.h = np.diff(t,axis=0);h = ini.h
-# ini.tm = np.array([])
-# ini.w = np.array([])
-# IN = [np.array([1]),np.array([2,3]),np.array([]),np.array([2,3]),np.array([2,3]),np.array([1])]
-# ini.IN = IN
-# I = np.arange(0,(ny+nu)*nt)
-# I = np.reshape(I,(nt,(ny+nu)),order = 'F')
-# ini.I_stored = I
-
-# dt = auxillary_data()
-# ini.NL = 1
-# dt.quadrature = 'CTR'
-
-# begin measuring
-#begin = time.time()
-
 # objective
-
 L = LQ_objective(left = 1,right = 1,matrix = 1/2)
-# Lfull = auxillary_data()
-# Lfull.left = 1;Lfull.right = 1; Lfull.matrix = np.ones((1,1))*1/2
-# Lfull = [Lfull]
-# #breakpoint()
-# I,J,V = DTQPy_L(Lfull,ini,dt)
-# H = csc_matrix((V,(I,J)),shape = ((ny+nu)*nt,(ny+nu)*nt))
-# H = H+H.T
+
 
 # UB,LB
-UB = [Simple_Linear_Bound() for n in range(3)]
-LB = [Simple_Linear_Bound() for n in range(2)]
-# UB = [auxillary_data() for n in range(3)]
-# LB = [auxillary_data() for n in range(2)]
+UB = [Simple_Bounds() for n in range(3)]
+LB = [Simple_Bounds() for n in range(2)]
+
 
 UB[0].right = 4; UB[0].matrix = np.array([[0],[1]]) # initial states
 LB[0].right = 4; LB[0].matrix =  np.array([[0],[1]])
 UB[1].right = 5; UB[1].matrix = np.array([[0],[-1]]) # final states
 LB[1].right = 5; LB[1].matrix = np.array([[0],[-1]])
 UB[2].right = 2; UB[2].matrix = np.array([[1/9],[np.inf]]) # states
-#breakpoint()
-#lb,ub = DTQPy_create_bnds(LB,UB,ini)
-#breakpoint()
-#spy(H)
-
-# DEFECT_TR
-#Aeq,beq = DTQPy_DEFECTS_TR(A,B,G,d,ini,[])
-#breakpoint()
-#spy(Aeq)
-
-# empty matrices
-# f = csc_matrix((1,1));Ain = csc_matrix((1,1));b = csc_matrix((1,1));
-# opts = {'eps_abs':1e-8,'eps_rel': 1e-8,'max_iter':1000}
-# breakpoint()
-
-# prob = osqp.OSQP()
-
-# # combine problem elements in the way osqp needs
-# Al = sparse.vstack([Aeq,sparse.eye(ini.nx)]); Al = Al.tocsc()
-# Ul = np.vstack([beq.todense(),ub[None].T])
-# Ll = np.vstack([beq.todense(),lb[None].T])
-
-# # problem setup
-# prob.setup(P = H,q = None,A = Al,l = Ll,u = Ul, **opts)
-
-# # solve the problem
-# res = prob.solve()
-
-# # end time
-# end = time.time()
-
-# # extract result
-# X = res.x
-
-# # reshape
-# U = np.take(X,np.arange(0,nu*nt))
-# Y = np.take(X,np.arange(nu*nt,(nu+ny)*nt))
-# Y = np.reshape(Y,(nt,ny),order = 'F')
 
 # combine
 s = setup()
@@ -130,8 +54,7 @@ s.Lagrange = L
 s.UB = UB; s.LB = LB
 s.auxdata = aux
 
-
-breakpoint()
+# solve
 T,U,Y,P,F,internal,opts = DTQPy_solve(s,opts)
 
 # plot

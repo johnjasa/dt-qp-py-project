@@ -42,9 +42,9 @@ M = LQ_objective()
 M.left = 0; M.right = 3; M.matrix = 1
 
 # linear constraints
-Y = [Simple_Linear_constraints() for n in range(1)]
+Y = [Simple_Linear_Constraints() for n in range(1)]
 
-linearY = [Simple_Linear_Bound() for n in range(2)]
+linearY = [Simple_Bounds() for n in range(2)]
 
 linearY[0].right = 4; linearY[0].matrix = np.array([[0],[1],[0],[0]])
 linearY[1].right = 5; linearY[1].matrix = np.array([[0],[-1],[0],[0]])
@@ -52,9 +52,9 @@ linearY[1].right = 5; linearY[1].matrix = np.array([[0],[-1],[0],[0]])
 Y[0].linear = linearY
 Y[0].b = 0
 
-Z = [Simple_Linear_constraints() for n in range(2)]
+Z = [Simple_Linear_Constraints() for n in range(2)]
 
-linearZ1 = [Simple_Linear_Bound() for n in range(2)]
+linearZ1 = [Simple_Bounds() for n in range(2)]
 
 linearZ1[0].right = 2; linearZ1[0].matrix = np.array([[-1],[0],[0],[0]])
 linearZ1[1].right = 1; linearZ1[1].matrix = np.array([[0],[1/12]])
@@ -62,7 +62,7 @@ linearZ1[1].right = 1; linearZ1[1].matrix = np.array([[0],[1/12]])
 Z[0].linear = linearZ1
 Z[0].b = 0
 
-linearZ2 = [Simple_Linear_Bound() for n in range(2)]
+linearZ2 = [Simple_Bounds() for n in range(2)]
 
 linearZ2[0].right = 2; linearZ2[0].matrix = np.array([[0],[0],[1],[0]])
 linearZ2[1].right = 3; linearZ2[1].matrix = np.ones((1,1))*-1
@@ -70,8 +70,8 @@ linearZ2[1].right = 3; linearZ2[1].matrix = np.ones((1,1))*-1
 Z[1].linear = linearZ2
 Z[1].b = 0
 
-UB = [Simple_Linear_Bound() for n in range(3)]
-LB = [Simple_Linear_Bound() for n in range(3)]
+UB = [Simple_Bounds() for n in range(3)]
+LB = [Simple_Bounds() for n in range(3)]
 
 UB[0].right = 4;UB[0].matrix = np.array([[2],[np.inf],[0.5],[0]])
 LB[0].right = 4; LB[0].matrix =  np.array([[2],[-np.inf],[0.5],[0]])

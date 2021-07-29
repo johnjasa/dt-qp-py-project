@@ -35,22 +35,22 @@ class setup:
             
         if isinstance(self.UB,list):
             pass
-        elif isinstance(self.UB,Simple_Linear_Bound):
+        elif isinstance(self.UB,Simple_Bounds):
             self.UB = [self.UB]
         
         if isinstance(self.LB,list):
             pass
-        elif isinstance(self.LB,Simple_Linear_Bound):
+        elif isinstance(self.LB,Simple_Bounds):
             self.LB = [self.LB]
             
         if isinstance(self.Y,list):
             pass
-        elif isinstance(self.Y,Simple_Linear_constraints):
+        elif isinstance(self.Y,Simple_Linear_Constraints):
             self.Y = [self.Y]
           
         if isinstance(self.Z,list):
             pass
-        elif isinstance(self.Z,Simple_Linear_constraints):
+        elif isinstance(self.Z,Simple_Linear_Constraints):
             self.Z = [self.Z]
         
             
@@ -123,7 +123,7 @@ class LQ_objective:
             
    
 
-class Simple_Linear_Bound:
+class Simple_Bounds:
     
     
     def __init__(self,right=None,matrix = np.empty((0,0))):
@@ -148,7 +148,7 @@ class Simple_Linear_Bound:
         else:
             self.matrix = np.ones((1,1))*self.matrix
     
-class Simple_Linear_constraints:
+class Simple_Linear_Constraints:
     
     def __init__(self,linear=[],b = []):
         self.linear = linear
@@ -158,7 +158,7 @@ class Simple_Linear_constraints:
         
         if isinstance(self.linear,list):
             pass
-        elif isinstance(self.linear,Simple_Linear_Bound):
+        elif isinstance(self.linear,Simple_Bounds):
             self.linear = [self.linear]
             
         #breakpoint()

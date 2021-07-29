@@ -52,7 +52,7 @@ M.right = 5
 M.matrix = p.m
 
 # initial conditions
-LB = Simple_Linear_Bound();UB = Simple_Linear_Bound()
+LB = Simple_Bounds();UB = Simple_Bounds()
 LB.right = 4;LB.matrix = p.x0
 UB.right = 4;UB.matrix = p.x0
 

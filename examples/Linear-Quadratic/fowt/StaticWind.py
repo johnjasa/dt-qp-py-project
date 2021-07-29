@@ -78,8 +78,8 @@ L[idx].left = 1; L[idx].right = 2; L[idx].matrix = L0mat
 idx+=1
 L[idx].left = 1; L[idx].right = 1; L[idx].matrix = L1mat
 
-UB = [Simple_Linear_Bound() for n in range(3)]
-LB = [Simple_Linear_Bound() for n in range(3)]
+UB = [Simple_Bounds() for n in range(3)]
+LB = [Simple_Bounds() for n in range(3)]
 
 UB[0].right = 1; UB[0].matrix = UB0mat
 LB[0].right = 1; LB[0].matrix = LB0mat

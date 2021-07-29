@@ -20,7 +20,7 @@ def DTQPy_create(setup,opts):
     
     # initialize some stuff
     setup,internal = DTQPy_initialize(setup,opts.dt)
-    #breakpoint()
+    
     # objective function
     H = DTQPy_createH(setup.Lquadratic,setup.Mquadratic,internal,opts)
     f = DTQPy_createf(setup.Llinear,setup.Mlinear,internal,opts)
@@ -30,7 +30,7 @@ def DTQPy_create(setup,opts):
     
     # defect constraints
     Aeq1,beq1 = DTQPy_DEFECTS(setup.A,setup.B,setup.G,setup.d,internal,opts)
-    #breakpoint()
+    
     # linear path and boundary equality constraints
     Aeq2,beq2 = DTQPy_create_YZ(setup.Y,internal)
     
@@ -44,6 +44,6 @@ def DTQPy_create(setup,opts):
     # create simple bounds
     lb,ub = DTQPy_create_bnds(setup.LB,setup.UB,internal)
     
-    #breakpoint()
+    
     
     return H,f,c,A,b,Aeq,beq,lb,ub,setup,internal,opts

@@ -140,15 +140,30 @@ def odefun(t,x,A_op,B_op,W_fun,U_fun,Uo_fun,DXoDt_fun,Wavg,caseflag):
     
 tspan = np.linspace(tt[0],tt[-1],2000)
 
+
 # initial conditions
 X01 = np.zeros((8,)); X01[0] = np.deg2rad(3); X01[4] = 6/9.5492965964254
-X0 = X01 - Xo_fun(W_fun(0))
-caseflag = 2
 
 options = {'atol':1e-7}
 
+# static linearized model
+caseflag = 1
+X0s = X01 - Xo_fun(Wavg)
+
 # solve
-sol = solve_ivp(odefun,[0,600],X0,method = 'RK45',args = (A_op,B_op,W_fun,U_fun,Uo_fun,DXoDt_fun,Wavg,caseflag),**options)
+sol_s = solve_ivp(odefun,[0,600],X0s,method = 'RK45',args = (A_op,B_op,W_fun,U_fun,Uo_fun,DXoDt_fun,Wavg,caseflag),**options)
+Ts = sol_s.t
+Xs = sol_s.y
+
+Xoff_avg = Xo_fun(Wavg)
+Xavg = Xs.T + Xoff_avg 
+
+# LPV model
+caseflag = 2
+X0l = X01 - Xo_fun(W_fun(0))
+
+# solve
+sol = solve_ivp(odefun,[0,600],X0l,method = 'RK45',args = (A_op,B_op,W_fun,U_fun,Uo_fun,DXoDt_fun,Wavg,caseflag),**options)
 
 # extract solution
 T = sol.t
@@ -159,5 +174,23 @@ Xoff = Xo_fun(W_fun(T))
 X = Xoff + Xl.T
 
 # plot
-plt.plot(T,X[:,0])
-plt.plot(T,X[:,4])
+fig1,(ax1,ax2) = plt.subplots(nrows = 2, ncols = 1)
+ax1.plot(T,np.rad2deg(X[:,0]))
+ax1.plot(Ts,np.rad2deg(Xavg[:,0]))
+idx = Channame.index(["PtfmPitch"])
+ax1.plot(tt,Chan[:,idx])
+ax1.set_ylabel("Platfrom Pitch [deg]")
+ax1.set_xlabel("Time [s]")
+plt.xlim([0,600])
+ax1.legend(['LPV','Single linearized model','Openfast'])
+
+#fig1.subplots_adjust(hspace = 0.65)
+
+ax2.plot(T,X[:,4])
+ax2.plot(Ts,Xavg[:,4])
+idx = Channame.index(["GenSpeed"])
+ax2.plot(tt,Chan[:,idx]/9.5492965964254)
+ax2.set_ylabel("Generator Speed [rad/s]")
+ax2.set_xlabel("Time [s]")
+plt.xlim([0,600])
+ax2.legend(['LPV','Single linearized model','Openfast'])
