@@ -4,6 +4,8 @@
 
 ## Python Dependencies
 - Numpy, Scipy, Matplotlib, and OSQP are the current packages that are being used
+- mat4py needed to load matfiles in fowt example
+
 
 ## To install OSQP, follow the instructions on the following link
 - [https://osqp.org/docs/get_started/python.html](https://osqp.org/docs/get_started/python.html)
