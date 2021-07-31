@@ -8,8 +8,14 @@ Primary Contributor: Daniel R. Herber (danielrherber on Github)
 """
 
 # import necessary libraries
-import numpy as np
 
+import os
+import sys
+
+#sys.path.insert(1,'/dt-qp-py-project/src')
+
+os.chdir('../../../')
+import numpy as np
 from src.classes.DTQPy_CLASS_OPTS import *
 from src.classes.DTQPy_CLASS_SETUP import *
 from src.DTQPy_solve import DTQPy_solve
