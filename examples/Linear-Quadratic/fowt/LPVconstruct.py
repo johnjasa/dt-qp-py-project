@@ -223,26 +223,3 @@ for windcase in ['Turb.mat','Step.mat']:
     Step = []
     plot = PlotCommon()
     plot.PlotStates(Turb,Chan,Channame)
-
-#breakpoint()
-# # plot
-# fig1,(ax1,ax2) = plt.subplots(nrows = 2, ncols = 1)
-# ax1.plot(T,np.rad2deg(X[:,0]))
-# ax1.plot(Ts,np.rad2deg(Xavg[:,0]))
-# idx = Channame.index(["PtfmPitch"])
-# ax1.plot(tt,Chan[:,idx])
-# ax1.set_ylabel("Platfrom Pitch [deg]")
-# ax1.set_xlabel("Time [s]")
-# plt.xlim([0,600])
-# ax1.legend(['LPV','Single linearized model','Openfast'])
-
-# #fig1.subplots_adjust(hspace = 0.65)
-
-# ax2.plot(T,X[:,4])
-# ax2.plot(Ts,Xavg[:,4])
-# idx = Channame.index(["GenSpeed"])
-# ax2.plot(tt,Chan[:,idx]/9.5492965964254)
-# ax2.set_ylabel("Generator Speed [rad/s]")
-# ax2.set_xlabel("Time [s]")
-# plt.xlim([0,600])
-# ax2.legend(['LPV','Single linearized model','Openfast'])

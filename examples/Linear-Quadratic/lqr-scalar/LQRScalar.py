@@ -7,6 +7,10 @@ Primary Contributor: Daniel R. Herber (danielrherber on Github)
 """
 
 import numpy as np
+import os.path
+import sys
+
+os.chdir('../../../')
 
 from src.classes.DTQPy_CLASS_OPTS import options
 from src.classes.DTQPy_CLASS_SETUP import *
