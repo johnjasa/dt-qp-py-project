@@ -6,6 +6,10 @@ Complex linear-quadratic dynamic optimization problem
 """
 
 import numpy as np
+import os.path
+import sys
+
+os.chdir('../../../')
 
 from src.classes.DTQPy_CLASS_SETUP import *
 from src.classes.DTQPy_CLASS_OPTS import *

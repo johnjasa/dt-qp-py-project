@@ -3,6 +3,7 @@
 # ignore certain file extensions
 *.ini
 *.asv
+*.out
 
 # ignore certain folders
 .private*/

@@ -22,9 +22,10 @@ def DTQPy_SOLVER_osqp(H,f,A,b,Aeq,beq,lb,ub,internal,opts):
     ubL = np.vstack([b.todense(),beq.todense(),ub[None].T])
     q = f.todense()
     
+    
     prob = osqp.OSQP()
     
-    #breakpoint()
+
     # problem setup
     prob.setup(P = H,q = q,A = Al,l = lbL,u = ubL, **options)
     

@@ -69,8 +69,8 @@ def DTQPy_DEFECTS_TR(A,B,G,d,internal,opts):
         
         # Column indices for disturbances
         if nd>0:
-            Hd = 0.5*h
-            Td = np.arange(1,nt)
+            Hd = np.squeeze(0.5*h)
+            Td = np.arange(0,nt-1)
         
         # Defect constraint of row continuous constraints
         for i in range(ny):
@@ -174,7 +174,7 @@ def DTQPy_DEFECTS_TR(A,B,G,d,internal,opts):
         if nd >0 and dflag:
             
             # initialize storage arrays
-            Isav = np.array([]); Vsav = np.array()
+            Isav = np.array([]); Vsav = np.array([])
             
             for i in range(ny):
                 
@@ -185,26 +185,28 @@ def DTQPy_DEFECTS_TR(A,B,G,d,internal,opts):
                 if dv.any():
                     
                     # defect constraint (row) locations
-                    Is = np.reshape(np.arange((i)*(nt-1),(i+1)*(nt-1)),nt-1,1)
-                    
+                    Is = np.reshape(np.arange((i)*(nt-1),(i+1)*(nt-1)),(nt-1,1),order = 'F')
+                    #breakpoint()
                     # nu values
                     Vs = Hd*(np.take(dv,Td)+np.take(dv,Td+1))
-                    
+                    #breakpoint()
                     # remove zeros
                     NZeroIndex = np.nonzero(Vs)
                     Is = Is[NZeroIndex[0]]; Vs = Vs[NZeroIndex[0]]
-                    
+                 
                     # combine
                     Isav = np.append(Isav,Is);Vsav = np.append(Vsav,Vs)
-                    
-                    # output sparse matrix
-                    beq = csc_matrix((Isav,1,Vsav),(ny*(nt-1),1))
+            #breakpoint()
+            # output sparse matrix
+            Ilen = len(Isav)
+            Jsav = np.zeros((Ilen,))
+            beq = csc_matrix((Vsav,(Isav,Jsav)),shape = (ny*(nt-1),1))
             
         else:
             # output sparse matrix
             beq = csc_matrix((ny*(nt-1),1))
                 
-            #breakpoint()    
+        
         return Aeq,beq
                 
                 

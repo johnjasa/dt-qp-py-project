@@ -59,7 +59,7 @@ def DTQPy_L(Lfull,internal,opts):
         # determine loactions and matrix values at these points
         for i in range(len(R)):
             for j in range(len(C)):
-                
+                #breakpoint()
                 # get current matrix values
                 Lv = Lt[:,i,j]
                 

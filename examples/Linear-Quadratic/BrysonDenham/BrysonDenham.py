@@ -12,7 +12,7 @@ Primary Contributor: Daniel R. Herber (danielrherber on Github)
 import os
 import sys
 
-#sys.path.insert(1,'/dt-qp-py-project/src')
+sys.path.insert(1,'/dt-qp-py-project/src')
 
 os.chdir('../../../')
 import numpy as np

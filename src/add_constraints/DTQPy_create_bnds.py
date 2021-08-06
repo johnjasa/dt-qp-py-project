@@ -32,5 +32,5 @@ def DTQPy_create_bnds(LB,UB,internal):
         ub[I,i] = V
     
     ub = np.min(ub,axis=1)
-   # breakpoint()
+    
     return lb,ub
