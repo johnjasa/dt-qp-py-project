@@ -3,7 +3,7 @@
 - I am currently using python 3.9, and spyder as the IDE [https://www.spyder-ide.org/](https://www.spyder-ide.org/).
 
 ## Python Dependencies
-- Numpy, Scipy, Matplotlib, and OSQP are the current packages that are being used
+- Numpy, Scipy, Matplotlib,pyoptsparse, and OSQP are the current packages that are being used
 - mat4py needed to load matfiles in fowt example
 
 
@@ -18,3 +18,9 @@
  - First you will need [GCC](https://linuxize.com/post/how-to-install-gcc-compiler-on-ubuntu-18-04/),
  - Cmake requires GCC and [openSSL](https://www.openssl.org/) to intall
  - After installing GCC and cmake, use the directions in [osqp-python](https://osqp.org/docs/get_started/python.html) guide to install osqp
+
+## Installation instructions for pyoptsparse
+### Linux installation
+- Currently pyoptsparse has support only in linux
+- Follow the installation instructions in [pyoptsparse installation page](https://mdolab-pyoptsparse.readthedocs-hosted.com/en/latest/install.html)
+- Building pyoptsparse through conda is straightforward, and I used that method to build pyoptsparse
