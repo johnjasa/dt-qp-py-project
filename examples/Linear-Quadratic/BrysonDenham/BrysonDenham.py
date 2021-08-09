@@ -9,6 +9,7 @@ Primary Contributor: Daniel R. Herber (danielrherber on Github)
 
 # import necessary libraries
 
+
 import os
 import sys
 
@@ -28,6 +29,7 @@ aux = auxdata()
 
 opts = options()
 opts.dt.nt = 1000
+opts.solver.function = 'pyoptsparse'
 
 opts.solver.tolerence = 1e-5
 #opts.solver.maxiters = 10000

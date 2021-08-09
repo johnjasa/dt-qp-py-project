@@ -8,6 +8,7 @@ Complex linear-quadratic dynamic optimization problem
 import numpy as np
 import os.path
 import sys
+import matplotlib.pyplot as plt
 
 os.chdir('../../../')
 
@@ -16,8 +17,9 @@ from src.classes.DTQPy_CLASS_OPTS import *
 from src.DTQPy_solve import DTQPy_solve
 
 opts = options()
-opts.dt.nt = 10
+opts.dt.nt = 1000
 opts.solver.tolerence = 1e-5
+opts.solver.function = 'pyoptsparse'
 
 # time horizon
 t0 = 0; tf = 1;
@@ -74,7 +76,7 @@ linearZ2[1].right = 3; linearZ2[1].matrix = np.ones((1,1))*-1
 Z[1].linear = linearZ2
 Z[1].b = 0
 
-UB = [Simple_Bounds() for n in range(3)]
+UB = [Simple_Bounds() for n in range(4)]
 LB = [Simple_Bounds() for n in range(3)]
 
 UB[0].right = 4;UB[0].matrix = np.array([[2],[np.inf],[0.5],[0]])
@@ -86,7 +88,7 @@ LB[1].right = 5; LB[1].matrix = -1*UB[1].matrix
 UB[2].right = 1; UB[2].matrix = np.array([[np.inf],[10]])
 LB[2].right = 1; LB[2].matrix = -1*UB[2].matrix
 
-# UB[3].right = 2; UB[3].matrix = np.array([[np.inf],[lambda t: aux.g(t)],[np.inf],[np.inf]],dtype = 'O')
+UB[3].right = 2; UB[3].matrix = np.array([[np.inf],[lambda t: aux.g(t)],[np.inf],[np.inf]],dtype = 'O')
 
 s = setup()
 s.A = A; s.B = B; s.G = G;
@@ -97,3 +99,22 @@ s.UB = UB; s.LB = LB;
 s.t0 = t0; s.tf = tf; s.auxdata = aux
 
 T,U,X,P,F,internal,opts = DTQPy_solve(s,opts)
+
+Y = X
+# plot
+plt.close('all')
+fig,ax = plt.subplots()
+ax.plot(T, Y[:,0], label="x1")
+ax.plot(T, Y[:,1], label="x2")
+ax.plot(T,Y[:,2], label = 'x3')
+ax.plot(T,Y[:,3],label = 'x4')
+ax.set_xlabel('t')
+ax.set_ylabel('x')
+ax.set_title('States');
+
+fig, a = plt.subplots()
+a.plot(T,U[:,0],label = "u1")
+a.plot(T,U[:,1],label = "u2")
+a.set_xlabel('t')
+a.set_ylabel('u')
+a.set_title('Controls');

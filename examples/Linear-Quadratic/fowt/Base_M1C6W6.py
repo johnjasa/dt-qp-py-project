@@ -338,18 +338,20 @@ U = Ul + Uo_off
 # plot
 fig, ((ax1,ax2,ax3)) = plt.subplots(3,1,)
 
+# wind
 ax1.plot(T,U[:,0])
 ax1.set_title('Wind Speed [m/s]')
 ax1.set_xlim([0,600])
 
+# torue
 ax2.plot(T,U[:,1]/1e+07)
 ax2.set_ylim([1.8,2])
 ax2.set_title('Gen Torque [MWm]')
 ax2.set_xlim([0,600])
 
-
+# blade pitch
 ax3.plot(T,U[:,2])
-ax3.set_ylim([0.2, 0.3])
+#ax3.set_ylim([0.2, 0.3])
 ax3.set_title('Bld Pitch [rad/s]')
 ax3.set_xlim([0,600])
 
@@ -357,10 +359,12 @@ fig.subplots_adjust(hspace = 0.65)
 
 fig2, ((ax1,ax2)) = plt.subplots(2,1)
 
+# PtfmPitch
 ax1.plot(T,np.rad2deg(X[:,0]))
 ax1.set_xlim([0,600])
 ax1.set_title('Ptfm Pitch [deg]')
 
+# FenSpeed
 ax2.plot(T,X[:,4])
 ax2.set_xlim([0,600])
 ax2.set_title('Gen Speed [rad/s]')

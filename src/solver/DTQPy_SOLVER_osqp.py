@@ -22,10 +22,9 @@ def DTQPy_SOLVER_osqp(H,f,A,b,Aeq,beq,lb,ub,internal,opts):
     ubL = np.vstack([b.todense(),beq.todense(),ub[None].T])
     q = f.todense()
     
-    
+    # create osqp problem attribute
     prob = osqp.OSQP()
     
-
     # problem setup
     prob.setup(P = H,q = q,A = Al,l = lbL,u = ubL, **options)
     
@@ -36,8 +35,14 @@ def DTQPy_SOLVER_osqp(H,f,A,b,Aeq,beq,lb,ub,internal,opts):
     X = res.x
     
     # extract objective function value
-    F = res.info.obj_val
+    EXITFLAG = res.info.status_val
+    internal.output = res.info.status
     
+    if EXITFLAG < 0:
+        F = None
+    else:
+        F = res.info.obj_val
+    breakpoint()
     return X,F,internal,opts
     
     
