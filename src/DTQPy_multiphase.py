@@ -9,13 +9,29 @@ Primary Contributor: Daniel R. Herber (danielrherber on Github)
 import numpy as np
 from src.DTQPy_create import DTQPy_create
 from src.solver.DTQPy_SOLVER import DTQPy_SOLVER
+from src.DTQPy_scalingLinear import DTQPy_scalingLinear
 
 def DTQPy_multiphase(setup,opts):
     
     H,f,c,A,b,Aeq,beq,lb,ub,setup,internal,opts = DTQPy_create(setup,opts)
     
     
+    if len(setup.Scaling) != 0:
+        Scaleflag = True
+        H,f,c,A,b,Aeq,beq,lb,ub,internal,SM,SC = DTQPy_scalingLinear(H,f,c,A,b,Aeq,beq,lb,ub,internal,setup.Scaling)
+    else:
+        Scaleflag = False
+    
+        
+    
+    
     [X,F,internal,opts] = DTQPy_SOLVER(H,f,A,b,Aeq,beq,lb,ub,internal,opts)
+    
+    
+    if Scaleflag :
+        
+        X = X.reshape(-1,1)
+        X = X*(SM) + SC
     
     F = F+c
     

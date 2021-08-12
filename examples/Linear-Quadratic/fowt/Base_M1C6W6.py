@@ -116,8 +116,9 @@ from src.DTQPy_solve import DTQPy_solve
 opts = options()
 
 opts.dt.nt = 1000
-opts.solver.tolerence = 1e-6
+opts.solver.tolerence = 1e-16
 opts.solver.maxiters = 1000000
+opts.solver.function = 'pyoptsparse'
 
 time = np.linspace(tt[0],tt[-1],opts.dt.nt)
 W_pp = PchipInterpolator(np.squeeze(tt),np.squeeze(Wind_speed))
@@ -271,7 +272,7 @@ LB[2].matrix = LBs
 
 # lagrange terms
 
-R1 = 1e-8; R2 = 1e+8
+R1 = 1e-0; R2 = 1e+8
 
 lx = 0
 
@@ -313,6 +314,10 @@ L4mat = np.empty((1,1),dtype = 'O')
 L4mat[0,0] = lambda t: GP_fun(W_fun(t))
 L[lx].matrix = L4mat
 
+# 
+scale = Scaling(right = 1, matrix = np.array([1,1e-16,1e-4]))
+
+
 # setup
 s = setup()
 s.A = TVmat2cell(lambda t: A_op(W_fun(t)),time)
@@ -321,7 +326,7 @@ s.d = TVmat2cell(DXoDt_fun,time)
 s.Lagrange = L
 s.UB = UB
 s.LB = LB
-
+s.Scaling = scale
 s.t0 = 0
 s.tf = 600
 #breakpoint()

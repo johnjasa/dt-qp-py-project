@@ -24,7 +24,7 @@ from src.DTQPy_solve import DTQPy_solve
 #from DTQPy_create_bnds import DTQPy_create_bnds
 import matplotlib.pyplot as plt
 
-# empty class aas a struct
+# empty class as a struct
 aux = auxdata()
 
 opts = options()

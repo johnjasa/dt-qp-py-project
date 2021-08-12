@@ -12,11 +12,15 @@ import numpy as np
 
 def DTQPy_SOLVER_osqp(H,f,A,b,Aeq,beq,lb,ub,internal,opts):
     
+    # obtain solver options
     solver = opts.solver
     
+    # set options
     options = {'eps_abs':solver.tolerence,'eps_rel': solver.tolerence,'max_iter':solver.maxiters}
     
-    
+    # Construct the problem in the way osqp needs it
+    # min 1/2*x'*H*x + q'*x
+    # subto: l < Ax < u
     Al = sparse.vstack([A,Aeq,sparse.eye(internal.nx)]); Al =  Al.tocsc()
     lbL = np.vstack([b.todense(),beq.todense(),lb[None].T])
     ubL = np.vstack([b.todense(),beq.todense(),ub[None].T])
@@ -42,7 +46,7 @@ def DTQPy_SOLVER_osqp(H,f,A,b,Aeq,beq,lb,ub,internal,opts):
         F = None
     else:
         F = res.info.obj_val
-    breakpoint()
+    
     return X,F,internal,opts
     
     

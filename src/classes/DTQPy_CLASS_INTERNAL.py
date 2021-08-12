@@ -11,37 +11,55 @@ from numpy.matlib import repmat
 from src.classes.DTQPy_CLASS_SETUP import *
 
 def DTQPy_extact_order_subsets(Otemp):
+    
+    # initialize
     Oquadratic = []
     Olinear = []
     Oconstant = []
         
     for i in range(len(Otemp)):
+            # check shape of objective array
             Otemp[i].Check_shape()
             
+            # get logical for right index
             rLogical = (Otemp[i].right>0)
+            
+            # get logical for left index
             lLogical = (Otemp[i].left>0)
-            #breakpoint()
+            
+            # combine
             IndCombined = np.array([Otemp[i].left,Otemp[i].right])
+            
+            # check for nonzero
             NonZero = np.nonzero(IndCombined)
             
+            # find logical sum
             sLogical = rLogical + lLogical
-           # breakpoint()
+ 
             if sLogical == 2:
+                
+                # Quadratic
                 Oquadratic.append(Otemp[i])
+                
             elif sLogical == 1:
+                
+                # linear objective term
                 if rLogical:
                    Ol = LQ_objective(left = 0,right = sum(IndCombined[NonZero]),matrix = Otemp[i].matrix)
                 elif lLogical:
                     Ol = LQ_objective(left = 0,right = sum(IndCombined[NonZero]),matrix = Otemp[i].matrix.T)
                 Olinear.append(Ol)
+                
             elif sLogical == 0:
+                
+                # Constant term
                 Oc = LQ_objective(left = 0,right = 0,matrix = Otemp[i].matrix)
                 Oconstant.append(Oc)
     
     return Oquadratic,Olinear,Oconstant
 
 def DTQPy_initialize(setup,dt):
-    #breakpoint()
+    
     # create empty class
     class internal:
        pass
@@ -49,10 +67,11 @@ def DTQPy_initialize(setup,dt):
     # instantiate class      
     i = internal()
     
+    # initial and final time
     i.t0 = setup.t0
     i.tf = setup.tf
     
-    #[t,w,D] = DTQPy_MESH_pts(i,dt)
+    #create mesh
     t = np.linspace(i.t0,i.tf,dt.nt)
     t = t[None].T
     w = []; D = []
@@ -60,17 +79,19 @@ def DTQPy_initialize(setup,dt):
     i.t = t;i.w = w;i.D = D;
     h = np.diff(t,axis=0);i.h = h
     
-    # needs to be updated
+    # mid points
     i.tm = np.array([])
     
-    # number of controls, states and parameters
+    # get the number of controls, states and parameters
     ny = max([np.shape(setup.A)[0],np.shape(setup.B)[0],np.shape(setup.G)[0],np.shape(setup.d)[0]]);i.ny = ny
     nu = np.shape(setup.B)[1];i.nu = nu
     npl = np.shape(setup.G)[1];i.npl = npl
     nd = np.shape(setup.d)[1];i.nd = nd
     
+    # total number of optimization variables
     nx = (nu+ny)*nt + npl; i.nx = nx
     
+    # initialize dummy A matrix
     if np.size(setup.A) == 0:
         setup.A = np.zeros((ny,ny))
         
@@ -89,21 +110,32 @@ def DTQPy_initialize(setup,dt):
     i.IN = IN
     i.I_stored = I_stored
     
+    # auxdata
     i.auxdata = setup.auxdata
     
     # lagrange and mayer terms
-    #breakpoint()
+    
+    # get Lagrange terms
     Ltemp = setup.Lagrange
-    #breakpoint()
+    
+    # get quadratic, linear and constant terms
     Lquadratic,Llinear,Lconstant = DTQPy_extact_order_subsets(Ltemp)
     
+    # get Mayer term
     Mtemp = setup.Mayer
+    
+    # get quadratic, linear and constant terms
     Mquadratic,Mlinear,Mconstant = DTQPy_extact_order_subsets(Mtemp)
     
-    #breakpoint()
-        
+     # add to setup  
     setup.Lquadratic = Lquadratic; setup.Llinear = Llinear; setup.Lconstant = Lconstant
     setup.Mquadratic = Mquadratic; setup.Mlinear = Mlinear; setup.Mconstant = Mconstant
-    #breakpoint()
+    
+    # Scaling terms
+    lenScale = len(setup.Scaling)
+    if lenScale !=0:
+        for k in range(lenScale):
+            
+            setup.Scaling[k].Check_Fields(i)
  
     return setup,i

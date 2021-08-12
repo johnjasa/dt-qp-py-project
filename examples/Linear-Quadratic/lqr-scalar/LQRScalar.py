@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 opts = options()
 opts.dt.nt = 1000
 opts.solver.tolerence = 1e-5
-opts.solver.function = 'osqp'
+opts.solver.function = 'pyoptsparse'
 
 #---------------------------------------
 p = auxdata()

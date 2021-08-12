@@ -12,13 +12,19 @@ import types
 
 
 def DTQPy_tmatrix(A,p,*args):
-    #breakpoint()
+    
     
     # check if another time mesh is imputted
     if len(args) !=0:
         t = args[0]
     else:
         t = p.t
+        
+    # convert lambda function to a np array of type object
+    if type(A) is types.LambdaType:
+            Ae = np.empty((1,1),dtype ='O')
+            Ae[0,0] = A
+            A = Ae
     
     # if A is empty 
     if len(A)==0:
@@ -48,18 +54,18 @@ def DTQPy_tmatrix(A,p,*args):
                 elif type(A[i,j]) is types.LambdaType: # A is time varying
                     if A[i,j].__code__.co_argcount == 2:
                           At[:,i,j] = np.ravel(A[i,j](t,p))
+                          
                     elif A[i,j].__code__.co_argcount == 1:
-                        #breakpoint()
                         At[:,i,j] = np.ravel(A[i,j](t))
+                        
                     else:
                         raise ValueError("not a properly defined function")
+                        
                 elif A[i,j] == 0:
                     pass
                 else:
                     At[:,i,j] = A[i,j] # A is time invariant
                     
-                    
-   
     return At    
                 
         

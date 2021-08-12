@@ -18,7 +18,7 @@ from src.DTQPy_solve import DTQPy_solve
 
 opts = options()
 opts.dt.nt = 1000
-opts.solver.tolerence = 1e-5
+opts.solver.tolerence = 1e-16
 opts.solver.function = 'pyoptsparse'
 
 # time horizon
@@ -40,7 +40,7 @@ L = [LQ_objective() for n in range(5)]
 L[0].left = 1;L[0].right = 1;L[0].matrix = np.eye(2)/10
 L[1].left = 1;L[1].right = 2;L[1].matrix = np.array([[1,1,0,0],[0,0,0,0]])
 L[2].left = 2;L[2].right = 2;L[2].matrix = np.zeros((4,4));L[2].matrix[1,1] = 5
-L[3].left = 0;L[3].right = 2;L[3].matrix =np.empty((1,4),dtype = 'O'); L[3].matrix[0,1] = lambda t: -5*2*aux.g(t);L[3].matrix[0,0] = 0;L[3].matrix[0,2] = 0;L[3].matrix[0,3] = 0
+L[3].left = 0;L[3].right = 2;L[3].matrix =np.zeros((1,4),dtype = 'O'); #L[3].matrix[0,1] = lambda t: -5*2*aux.g(t);
 L[4].left = 0; L[4].right = 0;L[4].matrix =np.empty((1,1),dtype = 'O');L[4].matrix[0,0] = lambda t: 5*(aux.g(t))**2
 
 # mayer term

@@ -15,20 +15,21 @@ class options:
         self.method = self.method()
         self.solver = self.solver()
         
-        
+     # general options   
     class general:
         def __init__(self,plotflag = None,saveflag = None,displevel = None):
             self.plotflag = plotflag;
             self.saveflag = saveflag
             self.displevel = displevel
             
+     # options specific to direct transcription methods        
     class dt:
         def __init__(self,defects = 'TR',quadrature = 'CTR',mesh = 'ED',nt = 100,meshr = None):
-            self.defects = defects
-            self.quadrature = quadrature
-            self.mesh = mesh
-            self.nt = nt
-            self.meshr = self.meshr()
+            self.defects = defects # method to transcribe the dynamics
+            self.quadrature = quadrature # method to transcribe quadrature
+            self.mesh = mesh # mesh
+            self.nt = nt # number of time points in a given time horizon
+            self.meshr = self.meshr() # mesh refinement
             
         class meshr:
             def __init__(self,method = 'None'):
@@ -41,9 +42,10 @@ class options:
             self.form = form 
             self.olqflag = olqflag 
             
+    # solver specific options        
     class solver:
         def __init__(self,function = 'osqp',tolerence = 1e-3,maxiters = 50000,display = True):
-            self.function = function 
-            self.tolerence = tolerence 
-            self.maxiters = maxiters 
-            self.display = display 
+            self.function = function # function to solve the QP problem
+            self.tolerence = tolerence # solver tolerence
+            self.maxiters = maxiters # maximum iterations
+            self.display = display # display options
