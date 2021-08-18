@@ -12,9 +12,10 @@ from dtqpy.src.add_constraints.DTQPy_bnds import DTQPy_bnds
 def DTQPy_create_bnds(LB,UB,internal):
     nx = internal.nx
     
-    
-    lb = np.ones((nx,len(LB)))*-np.inf
-    ub = np.ones((nx,len(UB)))*np.inf
+    lb = np.ones((nx,len(LB)))
+    lb *= np.inf
+    ub = np.ones((nx,len(UB)))
+    ub *= np.inf
     
     for i in range(len(LB)):
         LB[i].Check_shape()

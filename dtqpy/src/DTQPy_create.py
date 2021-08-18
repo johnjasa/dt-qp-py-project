@@ -17,7 +17,6 @@ from dtqpy.src.add_constraints.DTQPy_create_YZ import DTQPy_create_YZ
 from dtqpy.src.add_constraints.DTQPy_create_bnds import DTQPy_create_bnds
 
 def DTQPy_create(setup,opts):
-    
     # initialize some stuff
     setup,internal = DTQPy_initialize(setup,opts.dt)
     

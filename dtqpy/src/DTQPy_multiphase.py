@@ -15,7 +15,6 @@ def DTQPy_multiphase(setup,opts):
     
     H,f,c,A,b,Aeq,beq,lb,ub,setup,internal,opts = DTQPy_create(setup,opts)
     
-    
     if len(setup.Scaling) != 0:
         Scaleflag = True
         H,f,c,A,b,Aeq,beq,lb,ub,internal,SM,SC = DTQPy_scalingLinear(H,f,c,A,b,Aeq,beq,lb,ub,internal,setup.Scaling)

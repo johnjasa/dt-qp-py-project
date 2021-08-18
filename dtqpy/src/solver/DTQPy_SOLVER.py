@@ -13,7 +13,6 @@ def DTQPy_SOLVER(H,f,A,b,Aeq,beq,lb,ub,internal,opts):
     
     displevel = opts.general.displevel
 
-    
     # osqp
     if opts.solver.function == 'osqp':
         X,F,intrnal,opts = DTQPy_SOLVER_osqp(H,f,A,b,Aeq,beq,lb,ub,internal,opts)
