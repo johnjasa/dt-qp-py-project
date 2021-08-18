@@ -9,6 +9,7 @@
 .private*/
 plots*/
 __pycache__*/
+dtqpy.egg-info
 
 # ignore specific files
 notes.txt

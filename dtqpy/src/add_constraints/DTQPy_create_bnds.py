@@ -13,7 +13,7 @@ def DTQPy_create_bnds(LB,UB,internal):
     nx = internal.nx
     
     lb = np.ones((nx,len(LB)))
-    lb *= np.inf
+    lb *= -np.inf
     ub = np.ones((nx,len(UB)))
     ub *= np.inf
     

@@ -19,6 +19,7 @@ import numpy as np
 
 def DTQPy_SOLVER_pyoptsparse(H,f,A,b,Aeq,beq,lb,ub,internal,opts):
     
+    
     # obtain solver preferences
     solver = opts.solver
     
