@@ -133,13 +133,14 @@ def f_dtqp_fowt(LinearModels,disturbance):
         At = f(time)
         s = np.shape(At)
         
+        
         if len(s) ==4:
             At = np.squeeze(At)
         elif len(s) == 3:
             At = np.squeeze(At)
             At= At.T
                 
-        #breakpoint()
+        
         
         # get size
         try:
@@ -160,7 +161,7 @@ def f_dtqp_fowt(LinearModels,disturbance):
                 except:
                     Ax = PchipInterpolator(np.squeeze(time),At[:,i],axis = 0)
                     # work around, as defining lambda functions in a loop in python is tricky
-                    A[i,j] = BuildLambda(Ax)
+                A[i,j] = BuildLambda(Ax)
                 
         return A
 
@@ -371,8 +372,15 @@ def f_dtqp_fowt(LinearModels,disturbance):
     plt.show()
 
 if __name__ == '__main__':
-    Wind_o = loadmat('/Users/dzalkind/Tools/dt-qp-py-project/dtqpy/examples/Linear-Quadratic/fowt/072720_183300.mat')
-    LinearModels = loadmat('/Users/dzalkind/Tools/dt-qp-py-project/dtqpy/examples/Linear-Quadratic/fowt/SS2py.mat')
+    ex_name = os.path.dirname(os.path.realpath(__file__))
+    
+    
+    Wind_file = ex_name + os.sep + '072720_183300.mat'
+    Wind_o = loadmat(Wind_file)
+    Linfile = ex_name + os.sep +'SS2py.mat'
+    LinearModels = loadmat(Linfile)
+    
+    
 
     f_dtqp_fowt(LinearModels,Wind_o)
 

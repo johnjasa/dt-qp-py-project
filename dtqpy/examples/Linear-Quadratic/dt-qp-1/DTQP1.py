@@ -10,7 +10,7 @@ import os.path
 import sys
 import matplotlib.pyplot as plt
 
-os.chdir('../../../')
+#os.chdir('../../../')
 
 from dtqpy.src.classes.DTQPy_CLASS_SETUP import *
 from dtqpy.src.classes.DTQPy_CLASS_OPTS import *

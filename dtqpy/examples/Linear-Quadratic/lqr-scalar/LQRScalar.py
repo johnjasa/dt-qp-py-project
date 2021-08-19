@@ -10,7 +10,7 @@ import numpy as np
 import os.path
 import sys
 
-os.chdir('../../../')
+#os.chdir('../../../')
 
 from dtqpy.src.classes.DTQPy_CLASS_OPTS import options
 from dtqpy.src.classes.DTQPy_CLASS_SETUP import *
